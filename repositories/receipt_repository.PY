@@ -71,3 +71,12 @@ class ReceiptRepository:
                     item_repo.create_item(it['name'], it['price'], it['quantity'],it['date'],it['store'],it['category'], receipt_id)
                 conn.commit()
                  #Todo: return http response indicating creation
+    
+    def delete_receipt_by_id(self, receipt_id):
+        """Delete a receipt by ID"""
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            query = "DELETE FROM receipts WHERE id = %s"
+            cursor.execute(query, (receipt_id,))
+            conn.commit()
+            return cursor.rowcount > 0

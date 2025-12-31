@@ -58,15 +58,22 @@ class ItemRepository:
             item_id = cursor.lastrowid
             return item_id
 
-    def update_item_price(self, item_id, new_price):
-        """Update an item's price"""
+    def update_item(self, updated_data):
+        """Update an item's details"""
+        item_id = updated_data['item_id']
+        name = updated_data.get('name')
+        price = updated_data.get('price')
+        quantity = updated_data.get('quantity')
+        store = updated_data.get('store')
+        category = updated_data.get('category')
+        date = updated_data.get('date')
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            query = "UPDATE items SET price = %s WHERE id = %s"
-            cursor.execute(query, (new_price, item_id,))
+            query = "UPDATE items SET name = %s, price = %s, quantity = %s, date = %s, store = %s, category = %s WHERE item_id = %s"
+            cursor.execute(query, (name, price, quantity, date, store, category, item_id))
             conn.commit()
             return cursor.rowcount > 0
-
+    
     def delete_item_by_item_id(self, item_id):
         """delete an item by ID"""
         with get_db_connection() as conn:
