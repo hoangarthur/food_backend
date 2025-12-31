@@ -48,52 +48,49 @@ food_backend/
 3. **Database Tables:**
 	- Ensure MySQL database has the following tables: `users`, `items`, `receipts`, `recipes` (with appropriate columns).
 4. **Database structure:**
-    ```mermaid
+```mermaid
 erDiagram
     USER ||--o{ RECEIPTS : "creates"
-    USER ||--o{ RECIPE : "saves/creates"
-    ITEM ||--o{ RECEIPTS : "is purchased in"
-    ITEM ||--o{ RECIPE : "is used in"
+    USER ||--o{ RECIPE : "saves"
+    ITEM ||--o{ RECEIPTS : "contains"
+    ITEM ||--o{ RECIPE : "uses"
 
     USER {
         int userId PK
-        varchar(100) username
-        varchar(100) email
-        varchar(45) phone
-        varchar(45) diet
-        varchar(100) password
+        varchar username
+        varchar email
+        varchar phone
+        varchar diet
+        varchar password
     }
 
     RECEIPTS {
         int receiptId PK
-        int dateId
         date date
-        varchar(100) source
-        varchar(45) status
+        varchar source
+        varchar status
     }
 
     RECIPE {
         int recipeId PK
-        varchar(255) source
-        varchar(500) title
-        varchar(2500) description
+        varchar title
+        text description
         json ingredients
         text instructions
         int nutrition
         int totalTime
-        smallint total SMALLINT
         datetime dateSaved
         tinyint servings
     }
 
     ITEM {
         int iditem PK
-        varchar(100) name
+        varchar name
         tinyint price
         tinyint quantity
         datetime date
-        varchar(500) store
-        varchar(100) category
+        varchar store
+        varchar category
     }
 
 ### Usage
