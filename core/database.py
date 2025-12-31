@@ -2,13 +2,9 @@
 import mysql.connector
 from contextlib import contextmanager
 from mysql.connector import Error
+from config import DB_CONFIG
 
-DB_CONFIG = {
-    'host': 'localhost',         
-    'user': 'root',             
-    'password': '122442',  
-    'database': 'FoodSQL'
-}
+DB_CONFIG = DB_CONFIG
 @contextmanager
 def get_db_connection():
     """Get a MySQL connection using context manager"""
