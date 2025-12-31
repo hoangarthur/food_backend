@@ -1,13 +1,13 @@
 import mysql.connector
 from mysql.connector import Error
-
+from config import DB_CONFIG
 
 try:
     conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="122442",
-        database="FoodSQL"
+        host=DB_CONFIG['host'],
+        user=DB_CONFIG['user'],
+        password=DB_CONFIG['password'],
+        database=DB_CONFIG['database']
     )
     
     if conn.is_connected():
