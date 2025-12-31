@@ -8,7 +8,7 @@ class ItemRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor(dictionary=True)
             query = "SELECT * FROM items WHERE id = %s"
-            cursor.execute(query, (item_id))
+            cursor.execute(query, (item_id,))
             item = cursor.fetchone()
             cursor.close()
             return item
@@ -28,7 +28,7 @@ class ItemRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor(dictionary=True)
             query = "SELECT * FROM items WHERE user_id = %s"
-            cursor.execute(query, (user_id))
+            cursor.execute(query, (user_id,))
             items = cursor.fetchall()
             cursor.close()
             return items
@@ -48,7 +48,7 @@ class ItemRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor(dictionary=True)
             query = "SELECT COUNT(*) as count FROM items WHERE id = %s"
-            cursor.execute(query, (item_id))
+            cursor.execute(query, (item_id,))
             result = cursor.fetchone()
             cursor.close()
             return result['count'] > 0
@@ -58,7 +58,7 @@ class ItemRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor()
             query = "INSERT INTO items (name, price) VALUES (%s, %s)"
-            cursor.execute(query, (name, price))
+            cursor.execute(query, (name, price,))
             conn.commit()
             item_id = cursor.lastrowid
             cursor.close()
@@ -69,7 +69,7 @@ class ItemRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor()
             query = "UPDATE items SET price = %s WHERE id = %s"
-            cursor.execute(query, (new_price, item_id))
+            cursor.execute(query, (new_price, item_id,))
             conn.commit()
             cursor.close()
             return cursor.rowcount > 0
@@ -79,7 +79,7 @@ class ItemRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor()
             query = "DELETE FROM items WHERE id = %s"
-            cursor.execute(query, (item_id))
+            cursor.execute(query, (item_id,))
             conn.commit()
             cursor.close()
             return cursor.rowcount > 0

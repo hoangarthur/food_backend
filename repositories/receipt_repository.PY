@@ -1,6 +1,6 @@
 # repositories/receipt_repository.py
-from core.database import get_db_connection
 from repositories.item_repository import ItemRepository
+from core.database import get_db_connection
 
 class ReceiptRepository:
     """Repository for receipt-related database operations"""
@@ -29,7 +29,7 @@ class ReceiptRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor(dictionary=True)
             query = "SELECT COUNT(*) as count FROM receipts WHERE id = %s"
-            cursor.execute(query, (receipt_id))
+            cursor.execute(query, (receipt_id,))
             result = cursor.fetchone()
             cursor.close()
             return result['count'] > 0
@@ -40,7 +40,7 @@ class ReceiptRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor()
             query = "INSERT INTO receipts (id, user_id) VALUES (%s, %s)"
-            cursor.execute(query, (receipt_id, user_id))
+            cursor.execute(query, (receipt_id, user_id,))
             conn.commit()
             cursor.close()
         item_repo = ItemRepository()
