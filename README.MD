@@ -49,6 +49,7 @@ food_backend/
 	- Ensure MySQL database has the following tables: `users`, `items`, `receipts`, `recipes` (with appropriate columns).
 4. **Database structure:**
 
+
 ```mermaid
 erDiagram
     USER ||--o{ RECEIPTS : "creates"
