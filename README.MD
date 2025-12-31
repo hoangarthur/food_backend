@@ -48,52 +48,54 @@ food_backend/
 3. **Database Tables:**
 	- Ensure MySQL database has the following tables: `users`, `items`, `receipts`, `recipes` (with appropriate columns).
 4. **Database structure:**
+- **user**: Stores user information (userId, username, email, phone, diet, password).
+- **receipts**: Each receipt is linked to a user (one-to-many: one user can have many receipts).
+- **item**: Each item is linked to a receipt (one-to-many: one receipt can have many items).
+- **recipe**: Each recipe is linked to a receipt (one-to-many: one receipt can have many recipes).
 
+- **user (1) — (M) receipts**: One user can have multiple receipts.
+- **receipts (1) — (M) item**: One receipt can have multiple items.
+- **receipts (1) — (M) recipe**: One receipt can have multiple recipes.
 
-```mermaid
-erDiagram
-    USER ||--o{ RECEIPTS : "creates"
-    USER ||--o{ RECIPE : "saves"
-    ITEM ||--o{ RECEIPTS : "contains"
-    ITEM ||--o{ RECIPE : "uses"
+> **Note:**
+> - There are no direct many-to-many relationships in this schema. All relationships are one-to-many.
+> - The `ingredients` field in `recipe` is stored as JSON for flexibility.
 
-    USER {
-        int userId PK
-        varchar username
-        varchar email
-        varchar phone
-        varchar diet
-        varchar password
-    }
+**user**
+- userId (INT, PK)
+- username (VARCHAR)
+- email (VARCHAR)
+- phone (VARCHAR)
+- diet (VARCHAR)
+- password (VARCHAR)
 
-    RECEIPTS {
-        int receiptId PK
-        date date
-        varchar source
-        varchar status
-    }
+**receipts**
+- receiptId (INT, PK)
+- date (DATE)
+- source (VARCHAR)
+- status (VARCHAR)
 
-    RECIPE {
-        int recipeId PK
-        varchar title
-        text description
-        json ingredients
-        text instructions
-        int nutrition
-        int totalTime
-        datetime dateSaved
-        tinyint servings
-    }
+**item**
+- iditem (INT, PK)
+- name (VARCHAR)
+- price (TINYINT)
+- quantity (TINYINT)
+- date (DATETIME)
+- store (VARCHAR)
+- category (VARCHAR)
 
-    ITEM {
-        int iditem PK
-        varchar name
-        tinyint price
-        tinyint quantity
-        datetime date
-        varchar store
-        varchar category
-    }
+**recipe**
+- recipeId (INT, PK)
+- source (VARCHAR)
+- title (VARCHAR)
+- description (VARCHAR)
+- ingredients (JSON)
+- instructions (TEXT)
+- nutrition (INT)
+- totalTime (SMALLINT)
+- dateSaved (DATETIME)
+- servings (TINYINT)
+
 
 ### Usage
 - **Start FastAPI Server:**
