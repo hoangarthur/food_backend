@@ -1,6 +1,12 @@
 config.py
 __pycache__/
 *.pyc
-__pycache__/
 .pytest_cache/
-__pycache__/
+instance/
+venv/
+env/
+.env
+.DS_Store
+.idea/
+.vscode/
+logs/

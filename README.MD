@@ -51,11 +51,11 @@ food_backend/
 - **user**: Stores user information (userId, username, email, phone, diet, password).
 - **receipts**: Each receipt is linked to a user (one-to-many: one user can have many receipts).
 - **item**: Each item is linked to a receipt (one-to-many: one receipt can have many items).
-- **recipe**: Each recipe is linked to a receipt (one-to-many: one receipt can have many recipes).
+- **recipe**: Each recipe is linked to a user (one-to-many: one user can have many recipes).
 
 - **user (1) — (M) receipts**: One user can have multiple receipts.
 - **receipts (1) — (M) item**: One receipt can have multiple items.
-- **receipts (1) — (M) recipe**: One receipt can have multiple recipes.
+- **user (1) — (M) recipe**: One receipt can have multiple recipes.
 
 > **Note:**
 > - There are no direct many-to-many relationships in this schema. All relationships are one-to-many.
@@ -71,12 +71,14 @@ food_backend/
 
 **receipts**
 - receiptId (INT, PK)
+- userId (INT)
 - date (DATE)
 - source (VARCHAR)
 - status (VARCHAR)
 
 **item**
 - iditem (INT, PK)
+- recipeId (INT)
 - name (VARCHAR)
 - price (TINYINT)
 - quantity (TINYINT)
@@ -86,6 +88,7 @@ food_backend/
 
 **recipe**
 - recipeId (INT, PK)
+- userId (INT)
 - source (VARCHAR)
 - title (VARCHAR)
 - description (VARCHAR)
