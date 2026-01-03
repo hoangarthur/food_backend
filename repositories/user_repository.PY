@@ -8,8 +8,8 @@ class UserRepository:
         """Fetch a user by their ID"""
         with get_db_connection() as conn:
             cursor = conn.cursor(dictionary=True)
-            query = "SELECT * FROM users WHERE id = %s"
-            cursor.execute(query, (user_id))
+            query = "SELECT * FROM users WHERE userId = %s"
+            cursor.execute(query, (user_id,))
             user = cursor.fetchone()
             cursor.close()
             return user
@@ -19,17 +19,20 @@ class UserRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor(dictionary=True)
             query = "SELECT COUNT(*) as count FROM users WHERE email = %s"
-            cursor.execute(query, (email))
+            cursor.execute(query, (email,))
             result = cursor.fetchone()
             cursor.close()
             return result['count'] > 0
     
-    def create_user(self, username, email):
+    def create_user(self, email, password):
+        #check user exists
+        if self.check_user_exists(email,):
+            raise Exception("User with this email already exists")
         """Create a new user"""
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            query = "INSERT INTO users (username, email) VALUES (%s, %s)"
-            cursor.execute(query, (username, email))
+            query = "INSERT INTO users (email, password) VALUES (%s, %s)"
+            cursor.execute(query, (email, password))
             conn.commit()
             user_id = cursor.lastrowid
             cursor.close()
@@ -50,7 +53,8 @@ class UserRepository:
         with get_db_connection() as conn:
             cursor = conn.cursor()
             query = "DELETE FROM users WHERE email = %s"
-            cursor.exercute(query, (email))
+            cursor.execute(query, (email,))
             conn.commit()
             cursor.close()
             return cursor.rowcount > 0
+    
