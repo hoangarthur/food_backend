@@ -30,11 +30,11 @@ class ItemRepository:
             items = cursor.fetchall()
             return items
 
-    def get_items_by_receipt(self, receipt_id):
+    def get_items_by_receipt_id(self, receipt_id):
         """Fetch items by receipt ID"""
         with get_db_connection() as conn:
             cursor = conn.cursor(dictionary=True)
-            query = "SELECT * FROM items WHERE receipt_id = %s"
+            query = "SELECT * FROM items WHERE receiptId = %s"
             cursor.execute(query, (receipt_id,))
             items = cursor.fetchall()
             return items
@@ -52,7 +52,7 @@ class ItemRepository:
         """Create a new item"""
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            query = "INSERT INTO items (name, price, quantity, date, store, category, receipt_id) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            query = "INSERT INTO items (name, price, quantity, date, store, category, receiptId) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(query, (name, price, quantity, date, store, category, receipt_id))
             conn.commit()
             item_id = cursor.lastrowid

@@ -10,7 +10,12 @@ def get_db_connection():
     """Get a MySQL connection using context manager"""
     conn = None
     try:
-        conn = mysql.connector.connect(**DB_CONFIG)
+        conn = mysql.connector.connect(
+            **DB_CONFIG,
+            connection_timeout=5,
+            raise_on_warnings=True
+            )
+        
         if conn.is_connected():
             print("Database connection established")
             yield conn

@@ -13,6 +13,15 @@ class UserRepository:
             user = cursor.fetchone()
             cursor.close()
             return user
+    def get_userId_by_email(self, email):
+        """Fetch a user's ID by their email"""
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            query = "SELECT userId FROM users WHERE email = %s"
+            cursor.execute(query, (email,))
+            result = cursor.fetchone()
+            cursor.close()
+            return result[0] if result else None
         
     def check_user_exists(self, email):
         """Check if a user exists by email"""

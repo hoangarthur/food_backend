@@ -12,7 +12,7 @@ class RecipeRepository:
             cursor.execute(query, (recipe_id,))
             recipe = cursor.fetchone()
             return recipe
-
+    
     def get_recipes_by_user(self, user_id):
         """Fetch all recipes for a specific user"""
         with get_db_connection() as conn:
