@@ -1,7 +1,8 @@
 # database.py
-from sqlalchemy import URL, create_async_engine
+from sqlalchemy import URL
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase
 import os
 from dotenv import load_dotenv
 
@@ -9,7 +10,7 @@ load_dotenv()
 
 # get env variables
 DB_USER = os.getenv("DB_USER")
-DB_PASS = os.getenv("DB_PASS")
+DB_PASS = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 DB_NAME = os.getenv("DB_NAME")
@@ -42,4 +43,7 @@ class Base(DeclarativeBase):
 # FastAPI dependency (async version - recommended)
 async def get_async_db():
     async with AsyncSessionLocal() as session:
-        yield session
+        try:
+            yield session
+        finally:
+            await session.close()

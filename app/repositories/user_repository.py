@@ -1,5 +1,4 @@
 # repositories/user_repository.py
-from core.database import get_db_connection
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 
@@ -47,19 +46,19 @@ class UserRepository:
         
     async def update_user_password(self, email:str, new_password:str)-> bool:
         """Update a user's password by email""" 
-        await self.session.execute(
+        result = await self.session.execute(
             text("UPDATE users SET password = :new_password WHERE email = :email"),
             {"new_password": new_password, "email": email}
         )
         await self.session.commit()
-        return self.session.rowcount > 0
+        return result.rowcount > 0
     
     async def delete_user(self, email) -> bool:
         """delete a user by email"""
-        await self.session.execute(
+        result = await self.session.execute(
             text("DELETE FROM users WHERE email = :email"),
             {"email": email}
         )        
         await self.session.commit()
-        return self.session.rowcount > 0
+        return result.rowcount > 0
     
