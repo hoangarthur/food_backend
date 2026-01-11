@@ -45,6 +45,7 @@ food_backend/
 	- pip install gunicorn "uvicorn[standard]"
 	- set up gunicorn via: `gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000`
 	- cryptography for gunicorn and uvicorn (install via `pip install cryptography`)
+	- emailstr via `pip install pydantic[email]`
 2. **Configure Database:**
 	- Edit `config.py` with your MySQL credentials and database name.
 
@@ -118,7 +119,8 @@ food_backend/
 		```sh
 		python -m repositories.receipt_repository
 		```
-
+- **Run Server:**
+	- Use command: `uvicorn app.main:app --reload --port 8001`
 
 ### Notes
 - Always run scripts from the project root to ensure imports work correctly.

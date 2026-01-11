@@ -25,9 +25,6 @@ database_url = URL.create(
     database=DB_NAME
 )
 
-async_engine = create_async_engine(database_url)
-AsyncSessionLocal = async_sessionmaker(async_engine, class_=AsyncSession, expire_on_commit=False)
-
 # Async engine & session factory
 async_engine = create_async_engine(database_url, echo=False)  # echo=True debug
 AsyncSessionLocal = async_sessionmaker(

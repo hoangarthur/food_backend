@@ -2,10 +2,15 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_async_db
 from app.repositories import UserRepository
+from pydantic import BaseModel, EmailStr
 
 router = APIRouter()
 router.prefix = "/users"
 router.tags = ["users"]
+
+class UserCreate(BaseModel):
+    email: EmailStr          
+    password: str
 
 @router.get("/{email}")
 async def get_user_by_email(email: str, db: AsyncSession = Depends(get_async_db)):
@@ -16,9 +21,9 @@ async def get_user_by_email(email: str, db: AsyncSession = Depends(get_async_db)
     return {"id": user_id}
 
 @router.post("/")
-async def create_user(userpackage: dict, db: AsyncSession = Depends(get_async_db)):
+async def create_user(userpackage: UserCreate, db: AsyncSession = Depends(get_async_db)):
     user_repo = UserRepository(db)
-    new_user_id = await user_repo.create_user(email=userpackage["email"], password=userpackage["password"])
+    new_user_id = await user_repo.create_user(email=userpackage.email, password=userpackage.password)
     return {"id": new_user_id}
 
 @router.put("/{email}/password")
